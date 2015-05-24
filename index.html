@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NHL Team Points Predictor</title>
+  <meta charset="utf-8">
+  <meta name="description" content="NHL Team Points Predictor">
+  <meta name="author" content="David J Freifeld">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>NHL Team Points Predictor</h1>
+    <h2>2014-15 Season</h2>
+    <p>David J Freifeld<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The official website of the National Hockey League, nhl.com, provides basic data for all 30 teams for each season. For the current, 2014-15 season, we take a subset of this data, including the following five variables:</p>
+
+<ol>
+<li>Goals For</li>
+<li>Goals Against</li>
+<li>Power Play Percentage</li>
+<li>Penalty Kill Percentage</li>
+<li>Points</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Motivation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>A team&#39;s position in the playoffs is dependent on the number of points they accumulate throughout the season. </li>
+<li>A team receives 2 points for a win.</li>
+<li>A team receives 1 point if they lose in overtime. </li>
+<li>A team or a fan could use this tool to set goals for how many goals they want to score, how few goals to allow, etc., to get to a certain point total.</li>
+<li>A linear multivariate regression is ideal because it is quick, simple, and easily interpretable.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Points vs. Goals For and Goals Against</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">print(ggplot(nhl, aes(x=GF, y=GA, color=P)) + geom_point(size=4))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Takeaways</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>As we saw in the previous plot, a team is more likely to score more points when it scores more goals and has fewer goals scored against it.</li>
+<li>Interestingly, though, the coefficient of the Power Play Percentage variable is negative when using all four covariates:</li>
+</ul>
+
+<pre><code class="r">summary(lm(P ~ ., data=nhl))$coefficients
+</code></pre>
+
+<pre><code>##                Estimate  Std. Error    t value     Pr(&gt;|t|)
+## (Intercept) 123.5757556 41.18531805  3.0004808 6.031208e-03
+## GF            0.3920037  0.03887581 10.0834874 2.710383e-10
+## GA           -0.3660469  0.04485023 -8.1615375 1.628911e-08
+## PP           -0.6295131  0.32321637 -1.9476524 6.277032e-02
+## PK           -0.3111669  0.41234607 -0.7546257 4.575238e-01
+</code></pre>
+
+<ul>
+<li>This could be because, when holding the number of Goals a team scored constant, a higher power play percentage may mean that a team is too dependent on power plays to score. </li>
+<li>Regardless, there are clearly some interesting insights that can be gained from this tool.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Data'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Motivation'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Points vs. Goals For and Goals Against'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Takeaways'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
